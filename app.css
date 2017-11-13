@@ -1,0 +1,21 @@
+body {
+  font-family: 'Helvetica Neue';
+}
+
+.hidden {
+  display: none !important;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+#status-message {
+  background-color: #ffffee;
+}
+
+.backdrop {
+  fill: transparent;
+}
+
+.backdrop rect {
+  stroke: gray;
+}
