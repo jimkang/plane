@@ -2,9 +2,10 @@ var ndjson = require('ndjson');
 var request = require('basic-browser-request');
 var handleError = require('handle-error-web');
 var renderTasks = require('../dom/render-tasks');
+var saveTasksFlow = require('./save-tasks-flow');
 
 const ghPagesBaseURL = 'http://jimkang.com';
-const gitRepoOwner = 'jimkang';
+// const gitRepoOwner = 'jimkang';
 const repo = 'eisenvectors-data';
 const githubFilePath = 'life.ndjson';
 
@@ -33,7 +34,11 @@ function getTasksFlow({ token }) {
   function collectTask(task) {
     tasks.push(task);
     // TODO: Throttling?
-    renderTasks(tasks);
+    renderTasks({ taskData: tasks, onStartSave });
+  }
+
+  function onStartSave({ tasks }) {
+    saveTasksFlow({ tasks, token });
   }
 
   // function modifyData(data) {

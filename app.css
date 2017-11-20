@@ -19,3 +19,11 @@ body {
 .backdrop rect {
   stroke: gray;
 }
+
+.tasks circle {
+  cursor: pointer;
+}
+
+.tasks text {
+  cursor: pointer;
+}
