@@ -5,6 +5,7 @@ var qs = require('qs');
 var findGitHubToken = require('./find-github-token');
 var sb = require('standard-bail')();
 var getTasksFlow = require('./flows/get-tasks-flow');
+var editTaskFlow = require('./flows/edit-task-flow');
 var config = require('./config');
 
 var routeState = RouteState({
@@ -48,6 +49,15 @@ function followRoute(routeDict) {
 
 function followRouteUsingToken(routeDict) {
   getTasksFlow({ token: routeDict.token });
+  editTaskFlow({
+    token: routeDict.token,
+    task: {
+      id: 'TODO-use-idmaker',
+      importance: 0,
+      urgency: 0,
+      name: 'New task'
+    }
+  });
 }
 
 function addTokenToRoute(token) {

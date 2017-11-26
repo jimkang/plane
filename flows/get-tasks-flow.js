@@ -20,6 +20,7 @@ function getTasksFlow({ token }) {
   var ndjsonParsingStream = ndjson.parse();
   ndjsonParsingStream.on('data', collectTask);
 
+  // TODO: Get from git, not GH Pages.
   var reqOpts = {
     url: ghPagesBaseURL + '/' + repo + '/' + githubFilePath,
     method: 'GET',

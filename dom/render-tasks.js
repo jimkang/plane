@@ -27,7 +27,13 @@ function renderTasks({ taskData, onStartSave }) {
 }
 
 function getTaskTransform(task) {
-  return 'translate(' + (task.u * 50 + 500) + ', ' + (-task.i * 50 + 500) + ')';
+  return (
+    'translate(' +
+    (task.urgency * 50 + 500) +
+    ', ' +
+    (-task.importance * 50 + 500) +
+    ')'
+  );
 }
 
 module.exports = renderTasks;
