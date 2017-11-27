@@ -13,7 +13,8 @@ function SaveTasksData({ gitRepoOwner, repo, token, githubFilePath }) {
   return saveTasksData;
 
   function saveTasksData(data, done) {
-    var tasksString = data.map(JSON.stringify).join('\n');
+    // Ending linebreak is needed for the last line to be parsed.
+    var tasksString = data.map(JSON.stringify).join('\n') + '\n';
     githubFile.update({ filePath: githubFilePath, content: tasksString }, done);
   }
 }
