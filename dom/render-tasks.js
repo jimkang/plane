@@ -1,10 +1,11 @@
 var d3 = require('d3-selection');
+var updateTaskSelection = require('./update-task-selection');
 var taskRoot = d3.select('#board .tasks');
-var accessor = require('accessor')();
 var saveButton = d3.select('#save-button');
 
-function renderTasks({ taskData, onStartSave }) {
-  saveButton.on('click', onSaveClick);
+function renderTasks({ taskData, onStartSave, accessor }) {
+  saveButton.on('click.save-all', null);
+  saveButton.on('click.save-all', onSaveClick);
 
   var tasks = taskRoot.selectAll('.task').data(taskData, accessor());
 
@@ -18,22 +19,11 @@ function renderTasks({ taskData, onStartSave }) {
   newTasks.append('text');
 
   var tasksToUpdate = newTasks.merge(tasks);
-  tasksToUpdate.select('text').text(accessor('name'));
-  tasksToUpdate.attr('transform', getTaskTransform);
+  updateTaskSelection({ tasksToUpdate, accessor });
 
   function onSaveClick() {
     onStartSave({ tasks: taskRoot.selectAll('.task').data() });
   }
-}
-
-function getTaskTransform(task) {
-  return (
-    'translate(' +
-    (task.urgency * 50 + 500) +
-    ', ' +
-    (-task.importance * 50 + 500) +
-    ')'
-  );
 }
 
 module.exports = renderTasks;

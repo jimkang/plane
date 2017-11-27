@@ -7,6 +7,7 @@ var sb = require('standard-bail')();
 var getTasksFlow = require('./flows/get-tasks-flow');
 var editTaskFlow = require('./flows/edit-task-flow');
 var config = require('./config');
+var accessor = require('accessor')();
 
 var routeState = RouteState({
   followRoute,
@@ -48,15 +49,10 @@ function followRoute(routeDict) {
 }
 
 function followRouteUsingToken(routeDict) {
-  getTasksFlow({ token: routeDict.token });
+  getTasksFlow({ token: routeDict.token, accessor });
   editTaskFlow({
     token: routeDict.token,
-    task: {
-      id: 'TODO-use-idmaker',
-      importance: 0,
-      urgency: 0,
-      name: 'New task'
-    }
+    accessor
   });
 }
 

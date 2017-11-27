@@ -1,22 +1,14 @@
 var ndjson = require('ndjson');
 var request = require('basic-browser-request');
 var handleError = require('handle-error-web');
-var renderTasks = require('../dom/render-tasks');
-var saveTasksFlow = require('./save-tasks-flow');
+var showTasksFlow = require('./show-tasks-flow');
 
 const ghPagesBaseURL = 'http://jimkang.com';
 // const gitRepoOwner = 'jimkang';
 const repo = 'eisenvectors-data';
 const githubFilePath = 'life.ndjson';
 
-function getTasksFlow({ token }) {
-  // var saveYAMLData = SaveYAMLData({
-  //   gitRepoOwner,
-  //   repo,
-  //   token,
-  //   githubFilePath
-  // });
-  var tasks = [];
+function getTasksFlow({ token, accessor }) {
   var ndjsonParsingStream = ndjson.parse();
   ndjsonParsingStream.on('data', collectTask);
 
@@ -33,30 +25,9 @@ function getTasksFlow({ token }) {
   }
 
   function collectTask(task) {
-    tasks.push(task);
     // TODO: Throttling?
-    renderTasks({ taskData: tasks, onStartSave });
+    showTasksFlow({ incomingTasks: [task], token, accessor });
   }
-
-  function onStartSave({ tasks }) {
-    saveTasksFlow({ tasks, token });
-  }
-
-  // function modifyData(data) {
-  //   console.log('Loaded YAML data:', data);
-  //   data.push({
-  //     text: 'The secret code to enter the tower is: ' + ~~(Math.random * 1000),
-  //     topics: ['secrets', 'tower']
-  //   });
-  //   saveYAMLData(data, sb(logSaveResult));
-  // }
-
-  // function logSaveResult() {
-  //   console.log(
-  //     'Saved data! Check out:',
-  //     ghPagesBaseURL + '/' + repo + '/' + githubFilePath
-  //   );
-  // }
 }
 
 module.exports = getTasksFlow;

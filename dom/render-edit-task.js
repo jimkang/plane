@@ -6,9 +6,10 @@ var accessor = require('accessor')();
 // var textFieldNames = ['name'];
 var sliderFieldNames = ['importance', 'urgency'];
 
-addButton.on('click', showTaskForm);
+function renderEditTask({ task, onValueChange, onNewTask }) {
+  addButton.on('click.add-task', null);
+  addButton.on('click.add-task', onAddClick);
 
-function renderEditTask({ task, onValueChange }) {
   // TODO: concat custom field names to sliderFieldNames;
   var fields = taskForm
     .selectAll('.form-pair')
@@ -26,17 +27,20 @@ function renderEditTask({ task, onValueChange }) {
     .classed('slider', true)
     .attr('type', 'range')
     .attr('min', -100)
-    .attr('max', 100)
-    .on('change', onSliderChange);
+    .attr('max', 100);
+
   newFields.append('span').classed('value-text', true);
 
   var fieldsToUpdate = newFields.merge(fields);
   fieldsToUpdate.select('label').text(getFieldLabel);
-  fieldsToUpdate.select('.slider').attr('value', getFieldValue);
   fieldsToUpdate.select('.value-text').text(getFieldValue);
 
+  var slidersToUpdate = fieldsToUpdate.select('.slider');
+  slidersToUpdate.attr('value', getFieldValue).on('change.slider', null);
+  slidersToUpdate.on('change.slider', onSliderChange);
+
   function getFieldValue(fieldName) {
-    return +task[fieldName];
+    return task ? +task[fieldName] : '';
   }
 
   function onSliderChange(fieldName) {
@@ -45,6 +49,11 @@ function renderEditTask({ task, onValueChange }) {
       .select('.value-text')
       .text(this.value);
     onValueChange({ fieldName, value: this.value, task });
+  }
+
+  function onAddClick() {
+    onNewTask();
+    showTaskForm();
   }
 }
 
