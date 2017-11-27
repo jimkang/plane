@@ -1,10 +1,10 @@
 var ndjson = require('ndjson');
 var request = require('basic-browser-request');
 var handleError = require('handle-error-web');
+var LoadTasksData = require('../load-tasks-data');
+var sb = require('standard-bail')();
 
-const ghPagesBaseURL = 'http://jimkang.com';
 // const gitRepoOwner = 'jimkang';
-const repo = 'eisenvectors-data';
 const githubFilePath = 'life.ndjson';
 
 function getTasksFlow({
@@ -14,19 +14,21 @@ function getTasksFlow({
   editTaskFlow,
   saveTasksFlow
 }) {
-  var ndjsonParsingStream = ndjson.parse();
-  ndjsonParsingStream.on('data', collectTask);
+  var loadTasksData = LoadTasksData({
+    gitRepoOwner: 'jimkang',
+    token,
+    repo: 'eisenvectors-data',
+    branch: 'gh-pages',
+    request,
+    githubFilePath
+  });
+  loadTasksData(sb(parseText, handleError));
 
-  // TODO: Get from git, not GH Pages.
-  var reqOpts = {
-    url: ghPagesBaseURL + '/' + repo + '/' + githubFilePath,
-    method: 'GET',
-    onData: writeToStream
-  };
-  request(reqOpts, handleError);
-
-  function writeToStream(text) {
-    ndjsonParsingStream.write(text);
+  function parseText(taskDataText) {
+    var ndjsonParsingStream = ndjson.parse();
+    ndjsonParsingStream.on('data', collectTask);
+    ndjsonParsingStream.write(taskDataText);
+    ndjsonParsingStream.end();
   }
 
   function collectTask(task) {

@@ -3,7 +3,6 @@ var request = require('basic-browser-request');
 
 function SaveTasksData({ gitRepoOwner, repo, token, githubFilePath }) {
   var githubFile = GitHubFile({
-    branch: 'gh-pages',
     gitRepoOwner,
     gitToken: token,
     repo,
