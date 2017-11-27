@@ -6,6 +6,8 @@ var findGitHubToken = require('./find-github-token');
 var sb = require('standard-bail')();
 var getTasksFlow = require('./flows/get-tasks-flow');
 var editTaskFlow = require('./flows/edit-task-flow');
+var saveTasksFlow = require('./flows/save-tasks-flow');
+var showTasksFlow = require('./flows/show-tasks-flow');
 var config = require('./config');
 var accessor = require('accessor')();
 
@@ -49,10 +51,18 @@ function followRoute(routeDict) {
 }
 
 function followRouteUsingToken(routeDict) {
-  getTasksFlow({ token: routeDict.token, accessor });
+  getTasksFlow({
+    token: routeDict.token,
+    accessor,
+    showTasksFlow,
+    editTaskFlow,
+    saveTasksFlow
+  });
   editTaskFlow({
     token: routeDict.token,
-    accessor
+    accessor,
+    showTasksFlow,
+    saveTasksFlow
   });
 }
 

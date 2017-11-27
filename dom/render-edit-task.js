@@ -8,7 +8,12 @@ var taskNameField = taskForm.select('.task-name-field');
 // var textFieldNames = ['name'];
 var sliderFieldNames = ['importance', 'urgency'];
 
-function renderEditTask({ task, onValueChange, onNewTask }) {
+function renderEditTask({
+  task,
+  onValueChange,
+  onNewTask,
+  shouldShowForm = false
+}) {
   addButton.on('click.add-task', null);
   addButton.on('click.add-task', onAddClick);
   taskNameField.on('change.task-name', null);
@@ -46,6 +51,10 @@ function renderEditTask({ task, onValueChange, onNewTask }) {
   var slidersToUpdate = fieldsToUpdate.select('.slider');
   slidersToUpdate.attr('value', getFieldValue).on('change.slider', null);
   slidersToUpdate.on('change.slider', onSliderChange);
+
+  if (shouldShowForm) {
+    showTaskForm();
+  }
 
   function getFieldValue(fieldName) {
     return task ? +task[fieldName] : '';

@@ -3,7 +3,7 @@ var updateTaskSelection = require('./update-task-selection');
 var taskRoot = d3.select('#board .tasks');
 var saveButton = d3.select('#save-button');
 
-function renderTasks({ taskData, onStartSave, accessor }) {
+function renderTasks({ taskData, onStartSave, accessor, onTaskClick }) {
   saveButton.on('click.save-all', null);
   saveButton.on('click.save-all', onSaveClick);
 
@@ -17,6 +17,7 @@ function renderTasks({ taskData, onStartSave, accessor }) {
     .classed('task', true);
   newTasks.append('circle').attr('r', '3');
   newTasks.append('text');
+  newTasks.on('click', onTaskClick);
 
   var tasksToUpdate = newTasks.merge(tasks);
   updateTaskSelection({ tasksToUpdate, accessor });

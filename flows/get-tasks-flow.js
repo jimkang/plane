@@ -1,14 +1,19 @@
 var ndjson = require('ndjson');
 var request = require('basic-browser-request');
 var handleError = require('handle-error-web');
-var showTasksFlow = require('./show-tasks-flow');
 
 const ghPagesBaseURL = 'http://jimkang.com';
 // const gitRepoOwner = 'jimkang';
 const repo = 'eisenvectors-data';
 const githubFilePath = 'life.ndjson';
 
-function getTasksFlow({ token, accessor }) {
+function getTasksFlow({
+  token,
+  accessor,
+  showTasksFlow,
+  editTaskFlow,
+  saveTasksFlow
+}) {
   var ndjsonParsingStream = ndjson.parse();
   ndjsonParsingStream.on('data', collectTask);
 
@@ -26,7 +31,13 @@ function getTasksFlow({ token, accessor }) {
 
   function collectTask(task) {
     // TODO: Throttling?
-    showTasksFlow({ incomingTasks: [task], token, accessor });
+    showTasksFlow({
+      incomingTasks: [task],
+      token,
+      accessor,
+      editTaskFlow,
+      saveTasksFlow
+    });
   }
 }
 

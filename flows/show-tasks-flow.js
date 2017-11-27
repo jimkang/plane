@@ -1,13 +1,20 @@
 var renderTasks = require('../dom/render-tasks');
 var renderUpdateToSingleTask = require('../dom/render-update-to-single-task');
-var saveTasksFlow = require('./save-tasks-flow');
 
+// TODO: Don't store this in a flow.
 var tasks = [];
 
 // Unfortunately tricky dual-mode thing going on here: If updateOnlyTask
 // is there, it updates that tasks cache and asks just that one to be rendered.
 // If not, it renders all of the tasks.
-function showTasksFlow({ token, updateOnlyThisTask, incomingTasks, accessor }) {
+function showTasksFlow({
+  token,
+  updateOnlyThisTask,
+  incomingTasks,
+  accessor,
+  editTaskFlow,
+  saveTasksFlow
+}) {
   if (incomingTasks) {
     tasks = tasks.concat(incomingTasks);
   }
@@ -20,7 +27,7 @@ function showTasksFlow({ token, updateOnlyThisTask, incomingTasks, accessor }) {
       renderUpdateToSingleTask({ task: updateOnlyThisTask, accessor });
     }
   } else {
-    renderTasks({ taskData: tasks, onStartSave, accessor });
+    renderTasks({ taskData: tasks, onStartSave, accessor, onTaskClick });
   }
 
   function onStartSave({ tasks }) {
@@ -32,6 +39,17 @@ function showTasksFlow({ token, updateOnlyThisTask, incomingTasks, accessor }) {
       updateTaskIndex = i;
       return true;
     }
+  }
+
+  function onTaskClick(task) {
+    editTaskFlow({
+      token,
+      task,
+      accessor,
+      shouldShowForm: true,
+      showTasksFlow,
+      saveTasksFlow
+    });
   }
 }
 
