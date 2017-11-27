@@ -3,12 +3,20 @@ var addButton = d3.select('#add-button');
 var taskForm = d3.select('#task-form');
 var accessor = require('accessor')();
 
+var taskNameField = taskForm.select('.task-name-field');
+
 // var textFieldNames = ['name'];
 var sliderFieldNames = ['importance', 'urgency'];
 
 function renderEditTask({ task, onValueChange, onNewTask }) {
   addButton.on('click.add-task', null);
   addButton.on('click.add-task', onAddClick);
+  taskNameField.on('change.task-name', null);
+  taskNameField.on('change.task-name', onNameChange);
+
+  if (task) {
+    taskNameField.node().value = task.name;
+  }
 
   // TODO: concat custom field names to sliderFieldNames;
   var fields = taskForm
@@ -49,6 +57,14 @@ function renderEditTask({ task, onValueChange, onNewTask }) {
       .select('.value-text')
       .text(this.value);
     onValueChange({ fieldName, value: this.value, task });
+  }
+
+  function onNameChange() {
+    onValueChange({
+      fieldName: 'name',
+      value: taskNameField.node().value,
+      task
+    });
   }
 
   function onAddClick() {
