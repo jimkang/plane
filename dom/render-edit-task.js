@@ -1,9 +1,11 @@
 var d3 = require('d3-selection');
 var addButton = d3.select('#add-button');
-var taskForm = d3.select('#task-form');
 var accessor = require('accessor')();
 
+var taskForm = d3.select('#task-form');
+var slidersRoot = taskForm.select('#sliders-root');
 var taskNameField = taskForm.select('.task-name-field');
+var doneCheckbox = taskForm.select('.done-check-box');
 
 // var textFieldNames = ['name'];
 var sliderFieldNames = ['importance', 'urgency'];
@@ -23,8 +25,14 @@ function renderEditTask({
     taskNameField.node().value = task.name;
   }
 
+  doneCheckbox.on('click.is-done-task', null);
+  doneCheckbox.on('click.is-done-task', onDoneCheckboxClick);
+  if (task) {
+    doneCheckbox.attr('checked', task.isDone ? true : null);
+  }
+
   // TODO: concat custom field names to sliderFieldNames;
-  var fields = taskForm
+  var fields = slidersRoot
     .selectAll('.form-pair')
     .data(sliderFieldNames, accessor('identity'));
   fields.exit().remove();
@@ -72,6 +80,14 @@ function renderEditTask({
     onValueChange({
       fieldName: 'name',
       value: taskNameField.node().value,
+      task
+    });
+  }
+
+  function onDoneCheckboxClick() {
+    onValueChange({
+      fieldName: 'isDone',
+      value: this.checked,
       task
     });
   }
