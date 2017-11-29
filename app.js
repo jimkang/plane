@@ -4,12 +4,14 @@ var redirectToAuth = require('./redirect-to-auth');
 var qs = require('qs');
 var findGitHubToken = require('./find-github-token');
 var sb = require('standard-bail')();
-var getTasksFlow = require('./flows/get-tasks-flow');
-var editTaskFlow = require('./flows/edit-task-flow');
-var saveTasksFlow = require('./flows/save-tasks-flow');
-var showTasksFlow = require('./flows/show-tasks-flow');
+var GetTasksFlow = require('./flows/get-tasks-flow');
+var EditTaskFlow = require('./flows/edit-task-flow');
+var SaveTasksFlow = require('./flows/save-tasks-flow');
+var ShowTasksFlow = require('./flows/show-tasks-flow');
 var config = require('./config');
 var accessor = require('accessor')();
+
+var flowsForIds = {};
 
 var routeState = RouteState({
   followRoute,
@@ -44,26 +46,27 @@ function followRoute(routeDict) {
       redirectToAuth({
         routeDict,
         clientId: config.github.clientId,
-        scopes: ['public_repo']
+        scopes: ['repo']
       });
     }
   }
 }
 
 function followRouteUsingToken(routeDict) {
-  getTasksFlow({
+  flowsForIds['getTasks'] = GetTasksFlow({
     token: routeDict.token,
-    accessor,
-    showTasksFlow,
-    editTaskFlow,
-    saveTasksFlow
+    flowsForIds,
+    file: routeDict.file
   });
-  editTaskFlow({
+  flowsForIds['editTask'] = EditTaskFlow({ flowsForIds });
+  flowsForIds['showTasks'] = ShowTasksFlow({ accessor, flowsForIds });
+  flowsForIds['saveTasks'] = SaveTasksFlow({
     token: routeDict.token,
-    accessor,
-    showTasksFlow,
-    saveTasksFlow
+    file: routeDict.file
   });
+
+  flowsForIds['getTasks']();
+  flowsForIds['editTask']({});
 }
 
 function addTokenToRoute(token) {
