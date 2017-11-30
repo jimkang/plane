@@ -1,6 +1,5 @@
 var SaveTasksData = require('../save-tasks-data');
-var handleError = require('handle-error-web');
-var sb = require('standard-bail')();
+var renderSaveResult = require('../dom/render-save-result');
 
 function SaveTasksFlow({ token, file }) {
   return saveTasksFlow;
@@ -12,13 +11,8 @@ function SaveTasksFlow({ token, file }) {
       token,
       githubFilePath: file
     });
-    saveTasksData(tasks, sb(renderSaveResult, handleError));
+    saveTasksData(tasks, renderSaveResult);
   }
-
-  function renderSaveResult(body) {
-    console.log('Save result:', body);
-  }
-  // TODO: Render saved message.
 }
 
 module.exports = SaveTasksFlow;

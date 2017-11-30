@@ -27,3 +27,8 @@ body {
 .tasks text {
   cursor: pointer;
 }
+
+.save-zone {
+  margin-bottom: 2em;
+}
+
