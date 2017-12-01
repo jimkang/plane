@@ -5,7 +5,7 @@ var sb = require('standard-bail')();
 
 const ghPagesBaseURL = 'http://jimkang.com';
 const gitRepoOwner = 'jimkang';
-const repo = 'planplane-data';
+const repo = 'plane-data';
 const githubFilePath = 'data.yaml';
 
 function readWriteFromStoreFlow({ token }) {

@@ -1,4 +1,4 @@
-planplane
+plane
 ==================
 
 A importance-urgency mapper for tasks.
