@@ -7,7 +7,7 @@ function SaveTasksFlow({ token, file }) {
   function saveTasksFlow({ tasks }) {
     var saveTasksData = SaveTasksData({
       gitRepoOwner: 'jimkang',
-      repo: 'eisenvectors-data',
+      repo: 'planplane-data',
       token,
       githubFilePath: file
     });

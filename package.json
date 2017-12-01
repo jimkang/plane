@@ -1,5 +1,5 @@
 {
-  "name": "eisenvectors",
+  "name": "planplane",
   "version": "1.0.0",
   "description": "A importance-urgency mapper for tasks.",
   "main": "index.js",
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:jimkang/eisenvectors.git"
+    "url": "git@github.com:jimkang/planplane.git"
   },
   "keywords": [],
   "author": "Jim Kang",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jimkang/eisenvectors/issues"
+    "url": "https://github.com/jimkang/planplane/issues"
   },
-  "homepage": "https://github.com/jimkang/eisenvectors",
+  "homepage": "https://github.com/jimkang/planplane",
   "devDependencies": {
     "browserify": "^14.5.0",
     "uglify-es": "^3.1.9"

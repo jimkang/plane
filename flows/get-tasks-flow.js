@@ -11,7 +11,7 @@ function GetTasksFlow({ token, flowsForIds, file }) {
     var loadTasksData = LoadTasksData({
       gitRepoOwner: 'jimkang',
       token,
-      repo: 'eisenvectors-data',
+      repo: 'planplane-data',
       branch: 'gh-pages',
       request,
       githubFilePath: file
