@@ -28,7 +28,9 @@ body {
   cursor: pointer;
 }
 
-.save-zone {
+.controls {
   margin-bottom: 2em;
+  display: flex;
+  flex-direction: column;  
 }
 

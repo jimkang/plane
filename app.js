@@ -59,7 +59,7 @@ function followRouteUsingToken(routeDict) {
     file: routeDict.file
   });
   flowsForIds['editTask'] = EditTaskFlow({ flowsForIds });
-  flowsForIds['showTasks'] = ShowTasksFlow({ accessor, flowsForIds });
+  flowsForIds['showTasks'] = ShowTasksFlow({ accessor, flowsForIds, hideDone: routeDict.hideDone, routeState });
   flowsForIds['saveTasks'] = SaveTasksFlow({
     token: routeDict.token,
     file: routeDict.file

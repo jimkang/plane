@@ -7,7 +7,7 @@ var tasks = [];
 // Unfortunately tricky dual-mode thing going on here: If updateOnlyTask
 // is there, it updates that tasks cache and asks just that one to be rendered.
 // If not, it renders all of the tasks.
-function ShowTasksFlow({ accessor, flowsForIds }) {
+function ShowTasksFlow({ accessor, flowsForIds, hideDone, routeState }) {
   return showTasksFlow;
 
   function showTasksFlow({ updateOnlyThisTask, incomingTasks }) {
@@ -23,7 +23,7 @@ function ShowTasksFlow({ accessor, flowsForIds }) {
         renderUpdateToSingleTask({ task: updateOnlyThisTask, accessor });
       }
     } else {
-      renderTasks({ taskData: tasks, onStartSave, accessor, onTaskClick });
+      renderTasks({ taskData: tasks, onStartSave, accessor, onTaskClick, hideDone, onHideDone });
     }
 
     function taskIndexMatches(task, i) {
@@ -43,6 +43,10 @@ function ShowTasksFlow({ accessor, flowsForIds }) {
       task,
       shouldShowForm: true
     });
+  }
+
+  function onHideDone(shouldHideDone) {
+    routeState.addToRoute({hideDone: shouldHideDone ? 'yes' : 'no'});
   }
 }
 
