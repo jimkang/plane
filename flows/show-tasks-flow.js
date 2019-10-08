@@ -23,7 +23,14 @@ function ShowTasksFlow({ accessor, flowsForIds, hideDone, routeState }) {
         renderUpdateToSingleTask({ task: updateOnlyThisTask, accessor });
       }
     } else {
-      renderTasks({ taskData: tasks, onStartSave, accessor, onTaskClick, hideDone, onHideDone });
+      renderTasks({
+        taskData: tasks,
+        onStartSave,
+        accessor,
+        onTaskClick,
+        hideDone,
+        onHideDone
+      });
     }
 
     function taskIndexMatches(task, i) {
@@ -46,7 +53,7 @@ function ShowTasksFlow({ accessor, flowsForIds, hideDone, routeState }) {
   }
 
   function onHideDone(shouldHideDone) {
-    routeState.addToRoute({hideDone: shouldHideDone ? 'yes' : 'no'});
+    routeState.addToRoute({ hideDone: shouldHideDone ? 'yes' : 'no' });
   }
 }
 

@@ -5,7 +5,14 @@ var taskRoot = d3.select('#board .tasks');
 var saveButton = d3.select('#save-button');
 var hideDoneCheckbox = d3.select('#hide-done-checkbox');
 
-function renderTasks({ taskData, onStartSave, accessor, onTaskClick, hideDone, onHideDone }) {
+function renderTasks({
+  taskData,
+  onStartSave,
+  accessor,
+  onTaskClick,
+  hideDone,
+  onHideDone
+}) {
   saveButton.on('click.save-all', null);
   saveButton.on('click.save-all', onSaveClick);
 

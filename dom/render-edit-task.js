@@ -76,8 +76,7 @@ function renderEditTask({
   }
 
   function onSliderChange(fieldName) {
-    d3
-      .select(this.parentNode.parentNode)
+    d3.select(this.parentNode.parentNode)
       .select('.value-text')
       .text(this.value);
     onValueChange({ fieldName, value: this.value, task });

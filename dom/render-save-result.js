@@ -7,9 +7,7 @@ function renderSaveResult(error, saveResult) {
   if (error) {
     saveMessageBox.textContent = "Saving didn't work! Try again, maybe?";
     saveDetailsBox.classList.remove('hidden');
-    saveDetailsBox.textContent = `Error message: ${error.message}\n${
-      error.stack
-    }`;
+    saveDetailsBox.textContent = `Error message: ${error.message}\n${error.stack}`;
   } else {
     saveMessageBox.textContent = 'Saved!';
     console.log('Successful save result:', saveResult);
