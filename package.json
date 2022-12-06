@@ -32,7 +32,7 @@
     "idmaker": "^0.1.1",
     "ndjson": "^1.5.0",
     "probable": "^2.1.1",
-    "qs": "^6.5.1",
+    "qs": "^6.5.3",
     "route-state": "^1.1.2",
     "standard-bail": "^2.0.1",
     "yamljs": "^0.3.0"
